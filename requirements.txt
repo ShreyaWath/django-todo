@@ -1,0 +1,7 @@
+Django==3.2
+djangorestframework==3.14.0
+gunicorn==21.2.0
+psycopg2-binary==2.9.9  # PostgreSQL adapter (remove if using SQLite)
+whitenoise==6.5.0  # Static files support
+pytz==2024.1  # Timezone support
+sqlparse==0.4.4  # SQL parsing for Django
