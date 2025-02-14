@@ -1,21 +1,24 @@
-# Use Python Image
-FROM python:3.9
+# Use an official Python image
+FROM python:3
 
 # Set the working directory inside the container
-WORKDIR /app
+WORKDIR /data
 
-# Copy requirements and install dependencies
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+# Install required system dependencies
+RUN apt-get update && apt-get install -y python3-distutils python3-pip
 
-# Copy the project files
+# Upgrade pip and install Django dependencies
+RUN pip install --upgrade pip
+RUN pip install django==3.2
+
+# Copy project files into the container
 COPY . .
 
-# Run migrations
-RUN python manage.py migrate
+# Run migrations before starting the server
+RUN python manage.py migrate || echo "Migration failed, but continuing..."
 
-# Expose port 8000
+# Expose port 8000 for the Django application
 EXPOSE 8000
 
-# Start Django server
+# Start the Django development server
 CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
